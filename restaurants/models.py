@@ -2,9 +2,19 @@ from django.db import models
 from django.db.models.fields.related import ManyToManyField
 
 
+class City(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'cities'
+
+
 class Owner(models.Model):
     name = models.CharField(max_length=50)
-    age = models.IntegerField()
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -16,7 +26,6 @@ class Owner(models.Model):
 class Restaurant(models.Model):
     name = models.CharField(max_length=50)
     owner = models.ForeignKey(Owner, on_delete=models.CASCADE)
-    place = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name
